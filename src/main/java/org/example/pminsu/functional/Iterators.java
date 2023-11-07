@@ -32,7 +32,10 @@ public class Iterators {
 
     /**
      * 두 개의 iterator 동일한 iterator인지 판별하는 메서드
-     * InfiniteIterator
+     * Iterator 안에있는 요소들의 값을 비교하여 값이 동일하면 true, 다르면 false를 던짐
+     * 해당 equasls는 InfiniteIterator가 들어오면 에러를 던짐
+     * @param xs generic type Iterator
+     * @param ys generic type Iterator
      */
     public static <T> boolean equals(Iterator<T> xs, Iterator<T> ys) { // TODO: reduce, zip을 써서
         checkNotNull(xs);
@@ -74,7 +77,6 @@ public class Iterators {
     public static <E> Iterator<E> filter(Iterator<E> iterator, Predicate<E> predicate) {
 
         // TODO: Bug를 찾을 수 있는 test code를 IteratorTest.filterTest에 쓰고, Bug 고치기
-        // findFirst를 써서 풀기
         checkNotNull(iterator);
         checkNotNull(predicate);
         return new Iterator<E>() {

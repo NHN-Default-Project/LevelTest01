@@ -31,7 +31,6 @@ public class IteratorsTest {
     }
 
     @Test
-
     @DisplayName("reduce Iterator Value1 Test")
     void reduceIteratorValue1Test() {
         Iterator<Integer> iterator = Collections.singletonList(1).iterator();
