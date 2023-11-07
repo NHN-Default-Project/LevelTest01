@@ -1,16 +1,18 @@
 package org.example.main.functional.test;
 
-import org.junit.jupiter.api.Test;
-import com.tip.Mathx;
-import com.tip.functional.InfiniteIterator;
-import com.tip.functional.Iterators;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
+import org.example.main.Mathx;
+import org.example.main.functional.InfiniteIterator;
+import org.example.main.functional.Iterators;
+import org.junit.Test;
 
 
 public class MathxTest {

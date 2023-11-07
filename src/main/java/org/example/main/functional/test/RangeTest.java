@@ -1,13 +1,7 @@
 package org.example.main.functional.test;
 
-import java.util.stream.IntStream;
 
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.tip.functional.Range;
-import static com.tip.Mathx.*;
+import org.junit.Test;
 
 public class RangeTest {
     @Test

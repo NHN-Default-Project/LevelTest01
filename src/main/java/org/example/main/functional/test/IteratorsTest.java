@@ -1,14 +1,18 @@
 package org.example.main.functional.test;
 
+import static org.example.main.Mathx.fibonacci;
+import static org.example.main.functional.Iterators.iterate;
+import static org.example.main.functional.Iterators.limit;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import com.tip.Mathx;
-import com.tip.functional.*;
-import static com.tip.functional.Iterators.*;
-import static com.tip.Mathx.*;
+import org.example.main.Mathx;
+import org.example.main.functional.InfiniteIterator;
+import org.example.main.functional.Iterators;
+import org.junit.Test;
 
 public class IteratorsTest {
         @Test

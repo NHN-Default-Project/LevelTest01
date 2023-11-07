@@ -1,12 +1,14 @@
 package org.example.main;
 
+import static org.example.main.functional.Iterators.generate;
+import static org.example.main.functional.Iterators.reduce;
+
 import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
-import com.tip.functional.Fibonacci;
-import com.tip.functional.InfiniteIterator;
-import com.tip.functional.Range;
-import static com.tip.functional.Iterators.*;
+import org.example.main.functional.Fibonacci;
+import org.example.main.functional.InfiniteIterator;
+import org.example.main.functional.Range;
 
 public class Mathx {
     private Mathx() {}
