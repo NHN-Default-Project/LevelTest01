@@ -7,8 +7,10 @@ import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
+
 import org.example.pminsu.functional.Iterators;
 import org.example.pminsu.functional.Range;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

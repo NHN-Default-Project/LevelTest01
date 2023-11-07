@@ -1,6 +1,4 @@
-package org.example.main.functional.test;
-
-
+package org.example.jaehyeon.functional.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,11 +8,10 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-import org.example.main.Mathx;
-import org.example.main.functional.InfiniteIterator;
-import org.example.main.functional.Iterators;
+import org.example.jaehyeon.Mathx;
+import org.example.jaehyeon.functional.InfiniteIterator;
+import org.example.jaehyeon.functional.Iterators;
 import org.junit.jupiter.api.Test;
-
 
 public class MathxTest {
     @Test
