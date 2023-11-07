@@ -8,7 +8,7 @@ public class Fibonacci implements InfiniteIterator<BigInteger> {
     // TODO: 채우기
     /**
      * 피보나치 시작 값은 0부터 시작이므로 num의 값을 0으로 시작
-     * '
+     * InfiniteIterator
      */
     private final BigInteger num = new BigInteger("0");
     private final Map<BigInteger, BigInteger> fibonacciMap;

@@ -2,12 +2,13 @@ package org.example.pminsu.functional.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.tip.functional.Iterators;
-import com.tip.functional.Range;
+
 import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
+import org.example.pminsu.functional.Iterators;
+import org.example.pminsu.functional.Range;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,12 +19,6 @@ public class RangeTest {
         assertThrows(IllegalArgumentException.class, () -> new Range(10, 5));
         assertThrows(ArithmeticException.class, () -> new Range(10, Long.MAX_VALUE + 1));
         assertThrows(IllegalArgumentException.class, () -> new Range(0, Integer.MAX_VALUE + 1));
-    }
-
-    @Test
-    void test() {
-        Range range = new Range(10, Long.MAX_VALUE + Long.MAX_VALUE);
-        BigInteger bigInteger = new BigInteger()
     }
 
     @Test
