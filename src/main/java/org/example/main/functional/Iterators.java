@@ -122,11 +122,19 @@ public class Iterators {
 
         return new InfiniteIterator<T>() {
 
+            long currentCount = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentCount < maxSize && iterator.hasNext();
+            }
+
             @Override
             public T next() {
                 if (!hasNext()) {
-                    throw new NoSuchElementException("");
+                    throw new NoSuchElementException("no such");
                 }
+                currentCount = Math.addExact(currentCount, 1);
                 return iterator.next();
             }
         };
