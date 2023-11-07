@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import org.example.main.Precondition;
 
 public class Iterators {
 
     public static <E, R> R reduce(Iterable<E> es, BiFunction<R, E, R> biFunction, R init) {
+
         R result = init;
         for (E e : es) {
             result = biFunction.apply(result, e);
@@ -24,15 +27,27 @@ public class Iterators {
         return reduce(() -> es, biFunction, init);
     }
 
-    public static <T> boolean equals(Iterator<T> xs, Iterator<T> ys) { // TODO: reduce,zip를 써서
-
+    public static <T> boolean equals(Iterator<T> xs, Iterator<T> ys) {
+        Precondition.checkInfiniteIterator(xs);
+        Precondition.checkInfiniteIterator(ys);
+        return reduce(zip(Objects::equals, xs, ys), (x, y) -> x && y, true) && (xs.hasNext() == ys.hasNext());
     }
 
-    public static <T> String toString(Iterator<T> es, String separator) { // TODO: redude를 써서
+    public static <T> String toString(Iterator<T> es, String separator) {
+        Precondition.checkInfiniteIterator(es);
+        Precondition.checkNotNull(separator);
+        StringBuilder sb = new StringBuilder();
+        if (es.hasNext()) {
+            sb.append(es.next());
+        }
+
+        return reduce(es, (o, t) -> o.append(separator).append(t), sb).toString();
     }
 
 
     public static <E, R> Iterator<R> map(Iterator<E> es, Function<E, R> function) {
+        Precondition.checkInfiniteIterator(es);
+        Precondition.checkNotNull(function);
         return new Iterator<R>() {
             public boolean hasNext() {
                 return es.hasNext();
@@ -45,31 +60,29 @@ public class Iterators {
     }
 
     public static <E> Iterator<E> filter(Iterator<E> iterator, Predicate<E> predicate) {
-        // TODO: Bug를 찾을 수 있는 test code를 IteratorTest.filterTest에 쓰고, Bug 고치기
-        // findFirst를 써서 풀기
+        Precondition.checkInfiniteIterator(iterator);
+        Precondition.checkNotNull(predicate);
         return new Iterator<E>() {
-            private E current;
+            private E nextCurrent = findFirst(iterator, predicate);
 
             public boolean hasNext() {
-                while (iterator.hasNext()) {
-                    current = iterator.next();
-                    if (predicate.test(current)) {
-                        return true;
-                    }
-                }
-                return false;
+                return !Objects.isNull(nextCurrent);
             }
 
             public E next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException("filter");
                 }
-                return current;
+                E nowCurrent = nextCurrent;
+                nextCurrent = findFirst(iterator, predicate);
+                return nowCurrent;
             }
         };
     }
 
     public static <E> E findFirst(Iterator<E> iterator, Predicate<E> predicate) {
+        Precondition.checkInfiniteIterator(iterator);
+        Precondition.checkNotNull(predicate);
         while (iterator.hasNext()) {
             E first = iterator.next();
             if (predicate.test(first)) {
@@ -80,6 +93,7 @@ public class Iterators {
     }
 
     public static <T> InfiniteIterator<T> iterate(T seed, UnaryOperator<T> f) {
+        Precondition.checkNotNull(f);
         return new InfiniteIterator<T>() {
             T current = seed;
 
@@ -92,8 +106,10 @@ public class Iterators {
         };
     }
 
-    public static <T> Iterator<T> limit(Iterator<T> iterator, long maxSize) { // TODO
-        int count = 0;
+    public static <T> Iterator<T> limit(Iterator<T> iterator, long maxSize) {
+        Precondition.checkInfiniteIterator(iterator);
+        Precondition.checkArgument(maxSize > 0);
+
         return new InfiniteIterator<T>() {
 
             @Override
@@ -103,12 +119,21 @@ public class Iterators {
         };
     }
 
-    public static <T> InfiniteIterator<T> generate(Supplier<T> supplier) { // TODO:
-
+    public static <T> InfiniteIterator<T> generate(Supplier<T> supplier) {
+        Precondition.checkNotNull(supplier);
+        return new InfiniteIterator<T>() {
+            @Override
+            public T next() {
+                return supplier.get();
+            }
+        };
     }
 
     public static <X, Y, Z> Iterator<Z> zip(BiFunction<X, Y, Z> biFunction, Iterator<X> xIterator,
                                             Iterator<Y> yIterator) {
+        Precondition.checkNotNull(biFunction);
+        Precondition.checkInfiniteIterator(xIterator);
+        Precondition.checkInfiniteIterator(yIterator);
         return new Iterator<Z>() {
             public boolean hasNext() {
                 return xIterator.hasNext() && yIterator.hasNext();
@@ -124,10 +149,13 @@ public class Iterators {
     }
 
     public static <E> long count(Iterator<E> iterator) {
-        // TODO: reduce를 써서
+        Precondition.checkInfiniteIterator(iterator);
+
+        return reduce(iterator, (o, e) -> Math.addExact(o, 1), 0);
     }
 
     public static <T> T get(Iterator<T> iterator, long index) {
+        Precondition.checkInfiniteIterator(iterator);
         if (index < 0) {
             throw new IndexOutOfBoundsException("index < " + index);
         }
@@ -135,6 +163,7 @@ public class Iterators {
     }
 
     private static <T> T getLast(Iterator<T> iterator) {
+        Precondition.checkInfiniteIterator(iterator);
         while (true) {
             T current = iterator.next();
             if (!iterator.hasNext()) {
@@ -144,6 +173,7 @@ public class Iterators {
     }
 
     public static <T> List<T> toList(Iterator<T> iterator) {
+        Precondition.checkInfiniteIterator(iterator);
         List<T> list = new ArrayList<>();
         while (iterator.hasNext()) {
             list.add(iterator.next());

@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import jdk.jfr.Name;
 import org.example.main.Mathx;
 import org.example.main.functional.InfiniteIterator;
 import org.example.main.functional.Iterators;
@@ -16,6 +17,7 @@ import org.junit.Test;
 
 public class IteratorsTest {
         @Test
+        @
         public void iterateTest() {
                 assertTrue(iterate(1, x -> x + 1) instanceof InfiniteIterator);
                 assertTrue(!(limit(iterate(1, x -> x + 1), 10) instanceof InfiniteIterator));
