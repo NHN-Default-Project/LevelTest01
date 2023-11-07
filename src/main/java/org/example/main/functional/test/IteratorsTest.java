@@ -16,8 +16,7 @@ import org.example.main.functional.Iterators;
 import org.junit.Test;
 
 public class IteratorsTest {
-        @Test
-        @
+
         public void iterateTest() {
                 assertTrue(iterate(1, x -> x + 1) instanceof InfiniteIterator);
                 assertTrue(!(limit(iterate(1, x -> x + 1), 10) instanceof InfiniteIterator));
