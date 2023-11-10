@@ -224,11 +224,8 @@ public class IteratorsTest {
         Iterator<Integer> beforeFilter = new ArrayList<Integer>().iterator();
         Iterator<Integer> afterFilter = filter(
                 beforeFilter,
-                new Predicate<Integer>() {
-                    @Override
-                    public boolean test(Integer integer) {
-                        throw new AssertionFailedError("Should never be evaluated");
-                    }
+                integer -> {
+                    throw new AssertionFailedError("Should never be evaluated");
                 });
         List<Integer> expected = Collections.emptyList();
         List<Integer> actual = toList(afterFilter);
