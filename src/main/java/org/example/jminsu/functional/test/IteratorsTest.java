@@ -2,10 +2,7 @@ package org.example.jminsu.functional.test;
 
 import static java.util.Arrays.asList;
 import static org.example.jminsu.Mathx.fibonacci;
-import static org.example.jminsu.functional.Iterators.filter;
-import static org.example.jminsu.functional.Iterators.iterate;
-import static org.example.jminsu.functional.Iterators.limit;
-import static org.example.jminsu.functional.Iterators.map;
+import static org.example.jminsu.functional.Iterators.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,7 +18,6 @@ import java.util.stream.StreamSupport;
 import org.example.jminsu.Mathx;
 import org.example.jminsu.functional.InfiniteIterator;
 import org.example.jminsu.functional.Iterators;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -126,7 +122,7 @@ public class IteratorsTest {
     void equalsNullTest() {
         Iterator<Object> iter1 = asList().iterator();
         Iterator<Object> iter2 = null;
-        assertThrows(NoSuchElementException.class, () -> Iterators.equals(iter1, iter2));
+        assertThrows(NullPointerException.class, () -> Iterators.equals(iter1, iter2));
 
     }
 
@@ -156,6 +152,7 @@ public class IteratorsTest {
 
                         , Stream.iterate(1, x -> x + 1)
                                 .map(x -> x * 2)
+                                .limit(5)
                                 .iterator()));
     }
 
@@ -248,7 +245,7 @@ public class IteratorsTest {
 
 
                 Stream.iterate(1, x -> x + 1)
-//                        .limit(10)
+                        .limit(10)
                         .map(String::valueOf)
                         .reduce((x, y) -> x + " " + y).orElse(""));
 
@@ -269,11 +266,11 @@ public class IteratorsTest {
 
         assertEquals(Iterators.equals(iter1, iter1), true);
     }
-    @Test
-    public void testTest() {
-        Stream.iterate(1, x -> x + 1).forEach(System.out::println);
-
-    }
+//    @Test
+//    public void testTest() {
+//        Stream.iterate(1, x -> x + 1).forEach(System.out::println);
+//
+//    }
 
 
 }

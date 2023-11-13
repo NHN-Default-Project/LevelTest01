@@ -32,7 +32,9 @@ public class Iterators {
 
         R result = init;
         for (E e : es) {
-            result = biFunction.apply(result, e);
+            if (!Objects.isNull(e)) {
+                result = biFunction.apply(result, e);
+            }
         }
         return result;
     }
