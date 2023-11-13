@@ -1,13 +1,14 @@
 package org.example.jminsu;
 
-import static com.tip.functional.Iterators.*;
+import static org.example.jminsu.functional.Iterators.generate;
+import static org.example.jminsu.functional.Iterators.reduce;
 
-import com.tip.functional.Fibonacci;
-import com.tip.functional.InfiniteIterator;
-import com.tip.functional.Range;
 import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
+import org.example.jminsu.functional.Fibonacci;
+import org.example.jminsu.functional.InfiniteIterator;
+import org.example.jminsu.functional.Range;
 
 public class Mathx {
     private Mathx() {}

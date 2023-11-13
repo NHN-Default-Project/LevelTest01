@@ -1,9 +1,9 @@
 package org.example.jminsu.functional;
 
-import com.tip.Mathx;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import org.example.jminsu.Mathx;
 
 public class Experiments<T extends Number> implements Iterator<T> {
     private Iterator<T> iterator;

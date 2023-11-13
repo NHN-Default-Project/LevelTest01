@@ -3,7 +3,7 @@ package org.example.jminsu.functional;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Fibonacci implements InfiniteIterator<Integer> {
+public class Fibonacci extends InfiniteIterator<Integer> {
 
     Map<Integer, Integer> memorize = new HashMap<>();
 
@@ -11,10 +11,10 @@ public class Fibonacci implements InfiniteIterator<Integer> {
     private int fib1 = 0;
     private int fib2 = 1;
 
-    @Override
-    public boolean hasNext() {
-        return true;
-    }
+//    @Override
+//    public boolean hasNext() {
+//        return true;
+//    }
 
     @Override
     public Integer next() {

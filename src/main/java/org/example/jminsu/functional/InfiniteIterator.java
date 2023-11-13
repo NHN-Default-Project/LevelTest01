@@ -1,8 +1,10 @@
 package org.example.jminsu.functional;
 
-public interface InfiniteIterator<T> extends java.util.Iterator<T> {
+public abstract class InfiniteIterator<T> implements java.util.Iterator<T> {
     // TODO: 채우기
-    default boolean hasNext() {
+
+    @Override
+    public boolean hasNext() {
         return true;
     }
 

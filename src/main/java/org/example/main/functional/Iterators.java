@@ -203,6 +203,7 @@ public class Iterators {
 
     public static <E> void print(Iterator<E> iterator, String separator,
                                  java.io.PrintStream printStream) {
+
         printStream.print(toString(iterator, separator));
     }
 

@@ -1,6 +1,5 @@
-package org.example.jminsu;
+package org.example.jminsu.functional;
 
-import com.tip.functional.InfiniteIterator;
 import java.util.Iterator;
 import java.util.Objects;
 

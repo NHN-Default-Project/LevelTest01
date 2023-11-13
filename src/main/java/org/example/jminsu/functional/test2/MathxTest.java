@@ -1,29 +1,22 @@
-package org.example.jminsu.functional.test;
+package org.example.jminsu.functional.test2;
+
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-import org.example.jminsu.Mathx;
-import org.example.jminsu.functional.InfiniteIterator;
-import org.example.jminsu.functional.Iterators;
+import org.example.main.Mathx;
+import org.example.main.functional.InfiniteIterator;
+import org.example.main.functional.Iterators;
 import org.junit.jupiter.api.Test;
 
 
 public class MathxTest {
-    @Test
-    public void fibonacciTest() {
-        List<Integer> fibonacci = new ArrayList<>(Arrays.asList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34));
-
-        assertTrue(Iterators.equals(Iterators.limit(Mathx.fibonacci(), 10), fibonacci.stream().iterator()));
-    }
-
     @Test
     public void sumTest() {
         assertEquals(Mathx.sum(Arrays.asList()), IntStream.of().sum());

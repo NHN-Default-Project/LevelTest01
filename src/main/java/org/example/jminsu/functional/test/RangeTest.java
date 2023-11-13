@@ -1,9 +1,11 @@
 package org.example.jminsu.functional.test;
 
-import com.tip.functional.Iterators;
-import com.tip.functional.Range;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
+import org.example.jminsu.functional.Iterators;
+import org.example.jminsu.functional.Range;
 import org.junit.jupiter.api.Test;
 
 public class RangeTest {
@@ -22,5 +24,11 @@ public class RangeTest {
         }
 
         Iterators.equals(range.iterator(), longList.iterator());
+    }
+
+    @Test
+    public void maxValueTest() {
+        Range range = new Range(Long.MAX_VALUE, Long.MAX_VALUE+1);
+
     }
 }

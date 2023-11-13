@@ -1,12 +1,9 @@
 package org.example.jminsu.functional.test;
 
-import static com.tip.functional.Iterators.generate;
-import static com.tip.functional.Iterators.limit;
-import static com.tip.functional.Iterators.map;
+import static org.example.jminsu.functional.Iterators.generate;
+import static org.example.jminsu.functional.Iterators.limit;
+import static org.example.jminsu.functional.Iterators.map;
 
-import com.tip.Mathx;
-import com.tip.functional.Experiments;
-import com.tip.functional.Iterators;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +11,9 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.example.jminsu.Mathx;
+import org.example.jminsu.functional.Experiments;
+import org.example.jminsu.functional.Iterators;
 
 enum Quality {
     BEST, GOOD, REGULAR, POOR;

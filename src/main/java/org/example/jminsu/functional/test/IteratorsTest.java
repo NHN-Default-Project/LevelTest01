@@ -1,17 +1,16 @@
 package org.example.jminsu.functional.test;
 
-import static com.tip.Mathx.fibonacci;
-import static com.tip.functional.Iterators.filter;
-import static com.tip.functional.Iterators.iterate;
-import static com.tip.functional.Iterators.limit;
-import static com.tip.functional.Iterators.map;
 import static java.util.Arrays.asList;
+import static org.example.jminsu.Mathx.fibonacci;
+import static org.example.jminsu.functional.Iterators.filter;
+import static org.example.jminsu.functional.Iterators.iterate;
+import static org.example.jminsu.functional.Iterators.limit;
+import static org.example.jminsu.functional.Iterators.map;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.tip.Mathx;
-import com.tip.functional.InfiniteIterator;
-import com.tip.functional.Iterators;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -19,6 +18,9 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import org.example.jminsu.Mathx;
+import org.example.jminsu.functional.InfiniteIterator;
+import org.example.jminsu.functional.Iterators;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -166,7 +168,7 @@ public class IteratorsTest {
     @Test
     @DisplayName("generate 테스트")
     void generateTest() {
-        Iterators.println(Iterators.limit(Iterators.generate(Mathx::randInt), 5));
+        Iterators.println(limit(Iterators.generate(Mathx::randInt), 5));
     }
 
     @Test
@@ -239,24 +241,37 @@ public class IteratorsTest {
                                 .limit(9)
                                 .iterator()));
 
-        Assertions.assertEquals(
+        assertEquals(
                 Iterators
                         .toString(limit(iterate(1, x -> x + 1), 10)
                                 , " "),
 
 
                 Stream.iterate(1, x -> x + 1)
-                        .limit(10)
+//                        .limit(10)
                         .map(String::valueOf)
                         .reduce((x, y) -> x + " " + y).orElse(""));
 
-        Assertions.assertEquals(Iterators.toString(
+        assertEquals(Iterators.toString(
                         limit(
                                 iterate(1, x -> x + 1), 10), ","),
                 Stream.iterate(1, x -> x + 1)
                         .limit(10)
                         .map(String::valueOf)
                         .collect(Collectors.joining(",")));
+
+    }
+    @Test
+    public void equalTest() {
+        Iterator iter1 = limit(iterate(1, x -> x + 1), 10);
+
+        Iterator iter2 = limit(iterate(1, x -> x + 1), 10);
+
+        assertEquals(Iterators.equals(iter1, iter1), true);
+    }
+    @Test
+    public void testTest() {
+        Stream.iterate(1, x -> x + 1).forEach(System.out::println);
 
     }
 
