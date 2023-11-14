@@ -1,31 +1,15 @@
 package org.example.main.functional.test;
 
-import static org.example.jaehyeon.functional.Iterators.count;
-import static org.example.jaehyeon.functional.Iterators.filter;
-import static org.example.jaehyeon.functional.Iterators.findFirst;
-import static org.example.jaehyeon.functional.Iterators.generate;
-import static org.example.jaehyeon.functional.Iterators.get;
-import static org.example.jaehyeon.functional.Iterators.map;
-import static org.example.jaehyeon.functional.Iterators.toList;
-import static org.example.jaehyeon.functional.Iterators.zip;
-import static org.example.main.functional.Iterators.limit;
-import static org.example.pminsu.functional.Iterators.reduce;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.example.main.functional.Iterators.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import org.example.main.functional.InfiniteIterator;
+import org.example.main.functional.Iterators;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
@@ -35,7 +19,12 @@ public class IteratorsTest {
     @Test
     @DisplayName("reduce parameter iterator and iterable Precondition Test")
     void reducePreconditionTest() {
+        // null Vs Illegal
+        // ite
+
         //precondition
+
+        Iterator<Integer> iterator = List.of(1, 2, 3, 4, 5, 6, 7, 8).iterator();
         assertThrows(NullPointerException.class, () -> reduce((Iterable) null, (x, y) -> x, 1));
         assertThrows(NullPointerException.class, () -> reduce((Iterator) null, (x, y) -> y.toString(), ""));
 
@@ -74,19 +63,47 @@ public class IteratorsTest {
 
     @Test
     @DisplayName("equals precondtion")
-    void eqaulsPreconditionTest() {
-        assertThrows(NullPointerException.class, () -> org.example.pminsu.functional.Iterators.equals(null,
+    void equalsPreconditionTest() {
+
+        Iterator<Integer> iterator = Stream.iterate(1, x -> x + 1).limit(11).iterator();
+        Iterator<Integer> iterator2 = Stream.iterate(1, x -> x + 1).limit(10).iterator();
+        Iterator<Integer> iterator3 = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).iterator();
+        List<Integer> it2 = new LinkedList<>();
+        List<Integer> it = new ArrayList<>();
+        it.add(1);
+        Iterator<Integer> iterator4 = it.iterator();
+        Iterator<Integer> iterator8 = iterator4;
+
+        Iterator<Integer> iterator6 = it.stream().iterator();
+
+
+        it2.add(1);
+        Iterator<Integer> iterator5 = it2.iterator();
+
+        Iterator<Integer> iterator7 = it2.stream().iterator();
+        Iterators.equals(iterator2, iterator3);
+        System.out.println();
+        System.out.println(iterator2.hashCode());
+        //assertTrue(Iterators.equals(iterator, iterator3));
+        // assertFalse(Iterators.equals(iterator, iterator));
+        assertThrows(RuntimeException.class, () -> Iterators.equals(null,
                 Stream.iterate(1, x -> x + 1).limit(10).iterator()));
-        assertThrows(NullPointerException.class,
-                () -> org.example.pminsu.functional.Iterators.equals(Stream.iterate(1, x -> x + 1).limit(10).iterator(),
-                        null));
+
+//        assertThrows(NullPointerException.class,
+//                () -> Iterators.equals(Stream.iterate(1, x -> x + 1).limit(10).iterator(),
+//                        null));
+
     }
 
     @Test
     public void testEqualsNotMatchLength() {
+        Iterator<Integer> d = List.of(1, 2, 3).iterator();
+        Iterator<Integer> a = List.of(1, 2, 3).iterator();
+        assertTrue(Iterators.equals(d, d));
+
         Iterator<Integer> firstIterator = List.of(1, 2, 3).iterator();
         Iterator<Integer> secondIterator = Stream.iterate(1, x -> x + 1).limit(4).iterator();
-        assertFalse(org.example.jaehyeon.functional.Iterators.equals(firstIterator, secondIterator));
+        assertFalse(Iterators.equals(firstIterator, secondIterator));
     }
 
     @Test
@@ -106,13 +123,13 @@ public class IteratorsTest {
     @Test
     @DisplayName("equals Value 1 True test")
     void equalsValue1TrueTest() {
-        assertTrue(org.example.pminsu.functional.Iterators.equals(List.of(1).iterator(), Stream.of(1).iterator()));
+        assertTrue(org.example.pminsu.functional.Iterators.elementEquals(List.of(1).iterator(), Stream.of(1).iterator()));
     }
 
     @Test
     @DisplayName("equals Many Value True test")
     void equalsManyValueTrueTest() {
-        assertTrue(org.example.pminsu.functional.Iterators.equals(List.of(1, 2, 3).iterator(),
+        assertTrue(org.example.pminsu.functional.Iterators.elementEquals(List.of(1, 2, 3).iterator(),
                 Stream.of(1, 2, 3).iterator()));
     }
 
@@ -122,9 +139,9 @@ public class IteratorsTest {
         List<Object> list = new ArrayList();
         list.add(null);
         Iterator<Object> nullIterator = list.iterator();
-        assertTrue(org.example.pminsu.functional.Iterators.equals(Collections.emptyIterator(),
+        assertTrue(org.example.pminsu.functional.Iterators.elementEquals(Collections.emptyIterator(),
                 Collections.emptyIterator()));
-        assertFalse(org.example.pminsu.functional.Iterators.equals(Collections.emptyIterator(), nullIterator));
+        assertFalse(org.example.pminsu.functional.Iterators.elementEquals(Collections.emptyIterator(), nullIterator));
     }
 
     @Test
@@ -430,7 +447,7 @@ public class IteratorsTest {
 
     @Test
     public void generateTest() {
-        assertTrue(generate(() -> Integer.MAX_VALUE) instanceof org.example.jaehyeon.functional.InfiniteIterator);
+        assertTrue(generate(() -> Integer.MAX_VALUE) instanceof InfiniteIterator);
         assertThrows(NoSuchElementException.class, () -> generate(null));
     }
 

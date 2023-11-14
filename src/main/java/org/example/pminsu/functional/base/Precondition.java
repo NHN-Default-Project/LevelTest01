@@ -1,10 +1,7 @@
 package org.example.pminsu.functional.base;
 
 
-import java.util.Iterator;
 import java.util.Objects;
-import org.example.pminsu.functional.InfiniteIterator;
-import org.example.pminsu.functional.exception.InfiniteIteratorException;
 
 public class Precondition {
 
@@ -66,15 +63,5 @@ public class Precondition {
         }
     }
 
-    public static <T> void checkInfiniteIterator(Iterator<T> iterator) {
-        if (iterator instanceof InfiniteIterator) {
-            throw new InfiniteIteratorException();
-        }
-    }
 
-    public static <T> void checkInfiniteIterator(Iterator<T> iterator, Object object) {
-        if (iterator instanceof InfiniteIterator) {
-            throw new InfiniteIteratorException(String.valueOf(object));
-        }
-    }
 }

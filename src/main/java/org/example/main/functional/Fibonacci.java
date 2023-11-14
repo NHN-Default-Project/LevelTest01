@@ -7,7 +7,7 @@ public class Fibonacci implements InfiniteIterator<Integer> {
     private int cur;
     @Override
     public boolean hasNext() {
-        return false;
+        return true;
     }
 
     @Override

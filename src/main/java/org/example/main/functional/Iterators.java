@@ -1,19 +1,10 @@
 package org.example.main.functional;
 
 import static org.example.main.Precondition.checkArgument;
-import static org.example.main.Precondition.checkInfiniteIterator;
 import static org.example.main.Precondition.checkNotNull;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 public class Iterators {
 
@@ -35,12 +26,13 @@ public class Iterators {
         return reduce(() -> es, biFunction, init);
     }
 
+    /**
+     *
+     */
     public static <T> boolean equals(Iterator<T> xs, Iterator<T> ys) {
         checkNotNull(xs);
         checkNotNull(ys);
-        checkInfiniteIterator(xs, "equals Iterator Parameter InfiniteIterator");
-        checkInfiniteIterator(ys, "equals Iterator Parameter InfiniteIterator");
-        return reduce(zip(Objects::equals, xs, ys), (x, y) -> x && y, true) && (xs.hasNext() == ys.hasNext());
+       return reduce(zip(Objects::equals, xs, ys), (x, y) -> x && y, true) && (xs.hasNext() == ys.hasNext());
     }
 
     public static <T> String toString(Iterator<T> es, String separator) {
@@ -72,6 +64,7 @@ public class Iterators {
     public static <E> Iterator<E> filter(Iterator<E> iterator, Predicate<E> predicate) {
         checkNotNull(iterator);
         checkNotNull(predicate);
+
         return new Iterator<E>() {
             private E nextCurrent = findFirst(iterator, predicate);
 
@@ -102,10 +95,16 @@ public class Iterators {
         return null;
     }
 
-    public static <T> InfiniteIterator<T> iterate(T seed, UnaryOperator<T> f) {
+    public static <T> Iterator<T> iterate(T seed, UnaryOperator<T> f) {
         checkNotNull(f, "iterate UnaryOperator NullPointException");
-        return new InfiniteIterator<T>() {
+        return new Iterator<T>() {
             T current = seed;
+
+
+            @Override
+            public boolean hasNext() {
+                return true;
+            }
 
             @Override
             public T next() {
@@ -120,7 +119,7 @@ public class Iterators {
         checkNotNull(iterator);
         checkArgument(maxSize >= 0, "Limit NegativeNum");
 
-        return new InfiniteIterator<T>() {
+        return new Iterator<T>() {
 
             long currentCount = 0;
 
@@ -140,9 +139,38 @@ public class Iterators {
         };
     }
 
-    public static <T> InfiniteIterator<T> generate(Supplier<T> supplier) {
+    public static <T> Iterator<T> limit(InfiniteIterator<T> iterator, long maxSize) {
+        checkNotNull(iterator);
+        checkArgument(maxSize >= 0, "Limit NegativeNum");
+
+        return new Iterator<T>() {
+
+            long currentCount = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentCount < maxSize && iterator.hasNext();
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("no such");
+                }
+                currentCount = Math.addExact(currentCount, 1);
+                return iterator.next();
+            }
+        };
+    }
+
+    public static <T> Iterator<T> generate(Supplier<T> supplier) {
         checkNotNull(supplier);
-        return new InfiniteIterator<T>() {
+        return new Iterator<T>() {
+            @Override
+            public boolean hasNext() {
+                return true;
+            }
+
             @Override
             public T next() {
                 return supplier.get();
@@ -195,9 +223,10 @@ public class Iterators {
     public static <T> List<T> toList(Iterator<T> iterator) {
         checkNotNull(iterator);
         List<T> list = new ArrayList<>();
-        while (iterator.hasNext()) {
-            list.add(iterator.next());
-        }
+//        while (iterator.hasNext()) {
+//            list.add(iterator.next());
+//        }
+        iterator.forEachRemaining(list::add);
         return list;
     }
 

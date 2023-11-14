@@ -10,6 +10,7 @@ import org.example.main.functional.Fibonacci;
 import org.example.main.functional.InfiniteIterator;
 import org.example.main.functional.Range;
 
+// 함정있을듯?
 public class Mathx {
     private Mathx() {}
 
@@ -25,11 +26,11 @@ public class Mathx {
         return ThreadLocalRandom.current().nextDouble();
     }
 
-    public static InfiniteIterator<Double> randDoubles() {
+    public static Iterator<Double> randDoubles() {
         return generate(Mathx::randDouble);
     }
 
-    public static InfiniteIterator<Integer> randInts() {
+    public static Iterator<Integer> randInts() {
         return generate(Mathx::randInt);
     }
 
@@ -47,7 +48,6 @@ public class Mathx {
         return Math.multiplyExact(range.size(), Math.addExact(max, min)) / 2L;
     }
 
-
     public static <T extends Number> double product(Iterator<T> numbers) {
         return product(() -> numbers);
     }
@@ -64,16 +64,17 @@ public class Mathx {
         return BigInteger.valueOf(x).gcd(BigInteger.valueOf(y)).longValueExact();
     }
 
+    //
     public static boolean dirichletTest() {
         return gcd(randInt(), randInt()) == 1;
     }
 
-    public static InfiniteIterator<Integer> discreteUniformDistribution(int origin,
+    public static Iterator<Integer> discreteUniformDistribution(int origin,
             int boundInclusive) {
         return generate(() -> randInt(origin, boundInclusive + 1));
     }
 
-    public static InfiniteIterator<Integer> discreteUniformDistribution(int boundInclusive) {
+    public static Iterator<Integer> discreteUniformDistribution(int boundInclusive) {
         return generate(() -> randInt(0, boundInclusive + 1));
     }
 
@@ -91,13 +92,13 @@ public class Mathx {
         return ThreadLocalRandom.current().nextGaussian() * standardDeviation + mean;
     }
 
-    public static InfiniteIterator<Double> normalDistribution(double mean,
+    public static Iterator<Double> normalDistribution(double mean,
             double standardDeviation) {
         return generate(() -> randDoubleNormallyDistributed(mean, standardDeviation));
     }
 
     // Bernoulli distribition
-    public static InfiniteIterator<Integer> binaryDistribution(double probability) {
+    public static Iterator<Integer> binaryDistribution(double probability) {
         if (probability < 0 || probability > 1)
             throw new IllegalArgumentException("Out of range with " + probability);
         return generate(() -> randDouble() <= probability ? 1 : 0);

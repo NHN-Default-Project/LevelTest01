@@ -7,13 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.example.pminsu.functional.InfiniteIterator;
 import org.example.pminsu.functional.Iterators;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class IteratorsTest {
-    //TODO reduceTest 작성하기
+    //TODO reduceTest 다시 작성하기
     @Test
     @DisplayName("reduce parameter iterator and iterable Precondition Test")
     void reducePreconditionTest() {
@@ -51,11 +53,7 @@ public class IteratorsTest {
     @DisplayName("reduce Iterable Value1 Test")
     void reduceIterableValue1Test() {
         Iterable<Integer> iterable = Collections.singletonList(1);
-        List<Object> list = new ArrayList();
-        list.add(1);
-        list.add(null);
-        list.add(2);
-
+        assertEquals(Iterators.reduce(iterable, Math::addExact, 0), 1);
     }
 
     @Test
@@ -66,12 +64,11 @@ public class IteratorsTest {
                 Stream.of(1, 2, 3).reduce(0, Math::addExact));
     }
 
-    //TODO equals test code 작성
     @Test
     @DisplayName("equals precondtion")
     void eqaulsPreconditionTest() {
-        assertThrows(NullPointerException.class, () -> Iterators.equals(null, Stream.iterate(1, x -> x + 1).limit(10).iterator()));
-        assertThrows(NullPointerException.class, () -> Iterators.equals(Stream.iterate(1, x -> x + 1).limit(10).iterator(), null));
+        assertThrows(NullPointerException.class, () -> Iterators.elementEquals(null, Stream.iterate(1, x -> x + 1).limit(10).iterator()));
+        assertThrows(NullPointerException.class, () -> Iterators.elementEquals(Stream.iterate(1, x -> x + 1).limit(10).iterator(), null));
     }
 
     @Test
@@ -80,29 +77,29 @@ public class IteratorsTest {
         List<Object> list = new ArrayList();
         list.add(null);
         Iterator<Object> nullIterator = list.iterator();
-        assertTrue(Iterators.equals(Collections.emptyIterator(), Collections.emptyIterator()));
-        assertFalse(Iterators.equals(Collections.emptyIterator(), nullIterator));
+        assertTrue(Iterators.elementEquals(Collections.emptyIterator(), Collections.emptyIterator()));
+        assertFalse(Iterators.elementEquals(Collections.emptyIterator(), nullIterator));
     }
 
     @Test
     @DisplayName("equals Value 1 True test")
     void equalsValue1TrueTest() {
-        assertTrue(Iterators.equals(List.of(1).iterator(), Stream.of(1).iterator()));
+        assertTrue(Iterators.elementEquals(List.of(1).iterator(), Stream.of(1).iterator()));
     }
 
     @Test
     @DisplayName("equals Many Value True test")
     void equalsManyValueTrueTest() {
-        assertTrue(Iterators.equals(List.of(1, 2, 3).iterator(), Stream.of(1, 2, 3).iterator()));
+        assertTrue(Iterators.elementEquals(List.of(1, 2, 3).iterator(), Stream.of(1, 2, 3).iterator()));
     }
 
     @Test
     @DisplayName("equals false Test")
     void equalsFalseTest() {
-        assertFalse(Iterators.equals(List.of(1, 2, 3).iterator(), Stream.of(1, 2).iterator()));
-        assertFalse(Iterators.equals(List.of(1, 2, 3).iterator(), Stream.of(1, 2, 4).iterator()));
-        assertFalse(Iterators.equals(List.of(1, 2, 3).iterator(), Stream.of(2, 2, 4).iterator()));
-        Iterators.equals(Collections.emptyIterator(), Collections.emptyIterator());
+        assertFalse(Iterators.elementEquals(List.of(1, 2, 3).iterator(), Stream.of(1, 2).iterator()));
+        assertFalse(Iterators.elementEquals(List.of(1, 2, 3).iterator(), Stream.of(1, 2, 4).iterator()));
+        assertFalse(Iterators.elementEquals(List.of(1, 2, 3).iterator(), Stream.of(2, 2, 4).iterator()));
+        Iterators.elementEquals(Collections.emptyIterator(), Collections.emptyIterator());
     }
 
     //TODO toString Test
@@ -246,7 +243,7 @@ public class IteratorsTest {
     @Test
     @DisplayName("iterate Test")
     public void iterateTest() {
-        assertTrue(iterate(1, x -> x + 1) instanceof InfiniteIterator);
+        assertTrue(iterate(1, x -> x + 1) instanceof Iterator);
     }
 
     @Test
@@ -258,7 +255,7 @@ public class IteratorsTest {
     @Test
     @DisplayName("iterate Parameter Generic Type Value Null Test")
     void iterateGenericTypeValueNullTest() {
-        assertTrue(iterate(null, x -> x) instanceof InfiniteIterator);
+        assertTrue(iterate(null, x -> x) instanceof Iterator);
     }
 
     @Test
@@ -304,12 +301,13 @@ public class IteratorsTest {
         Iterator<Integer> emptyIterator = limit(Collections.emptyIterator(), 10);
         assertFalse(maxSize0Iterator.hasNext());
         assertFalse(emptyIterator.hasNext());
+        Iterator<Integer> it = Iterators.iterate(1, (x) -> x + 1); // 이게 즉 인피니티인데 굳이 새로타입을 정의 오버로딩
     }
 
     @Test
     @DisplayName("generate Test")
     void generateTest() {
-        assertTrue(generate(() -> true) instanceof InfiniteIterator);
+        assertTrue(generate(() -> true) instanceof Iterator);
         assertTrue(limit(generate(() -> true), 1).next());
 
     }
@@ -398,7 +396,7 @@ public class IteratorsTest {
         assertThrows(NullPointerException.class, () -> count(null));
     }
 
-    // iterator가 비어있을 때
+
     @Test
     @DisplayName("count Long Over MaxValue Test")
     void countLongOverMaxValueTest() {

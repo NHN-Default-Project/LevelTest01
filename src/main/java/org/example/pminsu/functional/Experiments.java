@@ -36,18 +36,12 @@ public class Experiments<T extends Number> implements Iterator<T> {
         return data;
     }
 
-
     public void report() {
-        System.out.println(sum(this.iteratorList) / this.iteratorList.size());
+        System.out.println(Mathx.sum(iteratorList.iterator()) / this.iteratorList.size());
     }
-
-    private double sum(List<T> iteratorList) {
-        double sumValue = 0.0;
-        for (T value : iteratorList) {
-            sumValue += value.doubleValue();
-        }
-        return sumValue;
-    }
+//    public void report() {
+//        System.out.println(Mathx.sum(iteratorList.iterator()) / this.iteratorList.size());
+//    }
 
 
 }

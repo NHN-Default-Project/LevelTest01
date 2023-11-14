@@ -42,7 +42,10 @@ public class MonteCarloTest {
          */
 
         // TODO: Iterators.{iterate, zip}을 써서 코드 채우기
-        Function<Supplier<Integer>, Iterator<Double>> monteCarloIterator = integerSupplier -> Iterators.zip((sum, count) -> sum / count, Iterators.iterate(0.0, x -> x + Double.valueOf(integerSupplier.get())), Iterators.iterate(1.0, y -> y + 1.0));
+        Function<Supplier<Integer>, Iterator<Double>> monteCarloIterator = integerSupplier ->
+                Iterators.zip((sum, count) -> sum / count,
+                        Iterators.iterate(0.0, x -> x + Double.valueOf(integerSupplier.get())),
+                        Iterators.iterate(1.0, y -> y + 1.0));
         /*
          *  PI 값으로 끝없이 수렴하는 수열을 표현할 수 있습니다.
          */
@@ -88,8 +91,7 @@ public class MonteCarloTest {
                         return Quality.BEST;
                     }
                     return Quality.values()[quality];
-                }
-                , herbAvailablities, qualities);
+                }, herbAvailablities, qualities);
 
         EnumMap<Quality, Supplier<Double>> normalDistributions = new EnumMap<>(Quality.class);
         normalDistributions.put(Quality.BEST, () -> Mathx.randDoubleNormallyDistributed(90, 10));
@@ -152,7 +154,9 @@ public class MonteCarloTest {
                 "herb qualities", "discrete uniform distribition");
 
         EnumMap<Quality, Experiments<Double>> normalDistributions = new EnumMap<>(Quality.class);
+
         String normalDistribution = "normal distribition";
+
         normalDistributions.put(Quality.BEST, new Experiments<>(Mathx.normalDistribution(90, 10),
                 "best effect", normalDistribution));
         normalDistributions.put(Quality.GOOD, new Experiments<>(Mathx.normalDistribution(80, 20),
@@ -181,12 +185,12 @@ public class MonteCarloTest {
          * 좋은 약초를 얻을 확률은 얼마나 될까요?
          */
         System.out.println("Herb availability");
-        herbAvailablities.report();
+        herbAvailablities.report(); // 7000
         System.out.println();
 
         /* 좋은 약초가 있고 없고에 따른 약재의 품질은 어떤가요? */
         System.out.println("Herb quality (Excellent = 0, Good = 1, Marginal = 2, Poor = 3): ");
-        herbQualities.report();
+        herbQualities.report(); //
         System.out.println();
 
         /* 약초 품질에 따른 약물의 효과는 어떻게 분포되나요? */

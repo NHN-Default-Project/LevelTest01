@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-import org.example.pminsu.functional.InfiniteIterator;
 import org.example.pminsu.functional.Iterators;
 import org.example.pminsu.functional.Mathx;
 import org.junit.jupiter.api.Test;
@@ -35,10 +35,10 @@ public class MathxTest {
     }
 
     public static void randDoublesDemo() {
-        assertTrue(Iterators.generate(Mathx::randDouble) instanceof InfiniteIterator);
-        assertTrue(Iterators.generate(Mathx::randInt) instanceof InfiniteIterator);
-        assertTrue(Mathx.randDoubles() instanceof InfiniteIterator);
-        assertTrue(Mathx.randInts() instanceof InfiniteIterator);
+        assertTrue(Iterators.generate(Mathx::randDouble) instanceof Iterator);
+        assertTrue(Iterators.generate(Mathx::randInt) instanceof Iterator);
+        assertTrue(Mathx.randDoubles() instanceof Iterator);
+        assertTrue(Mathx.randInts() instanceof Iterator);
 
         Iterators.println(Iterators.limit(Iterators.generate(Mathx::randDouble), 20));
         Iterators.println(Iterators.limit(Mathx.randDoubles(), 20));
@@ -50,9 +50,9 @@ public class MathxTest {
 
     @Test
     public void distributionTest() {
-        assertTrue(Mathx.binaryDistribution(0.5) instanceof InfiniteIterator);
-        assertTrue(Mathx.discreteUniformDistribution(1, 4) instanceof InfiniteIterator);
-        assertTrue(Mathx.normalDistribution(90, 10) instanceof InfiniteIterator);
+        assertTrue(Mathx.binaryDistribution(0.5) instanceof Iterator);
+        assertTrue(Mathx.discreteUniformDistribution(1, 4) instanceof Iterator);
+        assertTrue(Mathx.normalDistribution(90, 10) instanceof Iterator);
     }
 
     public static void main(String[] args) {
